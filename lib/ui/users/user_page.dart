@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:uni_plus/data/local/db/app_database.dart';
 import 'package:uni_plus/data/service_locator.dart';
 import 'package:uni_plus/ui/chat/chat_page.dart';
+import 'package:uni_plus/ui/regions/bloc/region_bloc.dart';
+import 'package:uni_plus/ui/regions/regions.dart';
 import 'package:uni_plus/utils/navigator_extension.dart';
 
 import '../../widgets/evw_text_field.dart';
@@ -22,52 +24,65 @@ class _UserPageState extends State<UserPage> {
       appBar: AppBar(
         title: const Text("Users"),
       ),
-      body: StreamBuilder(
-        stream: appDatabase.watchUsers(),
-        builder: (context, AsyncSnapshot<List<UserTableData>> snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data?.isNotEmpty == true) {
-              final data = snapshot.data!;
-              return ListView.separated(
-                separatorBuilder: (context, index) => const Divider(height: 1),
-                itemBuilder: (context, index) {
-                  final item = data[index];
-                  return ListTile(
-                    leading: Text("${item.id}"),
-                    title: Text("${item.name}"),
-                    onTap: () => push(ChatPage(userTableData: item)),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            showUserDialog(context, userTableData: item);
-                          },
-                          icon: const Icon(Icons.edit),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            showDeleteDialog(item);
-                          },
-                          icon: const Icon(Icons.delete),
-                        )
-                      ],
-                    ),
+      body: Column(
+        children: [
+          ListTile(
+            title: Text("Viloyatlar"),
+            onTap: () {
+              pushWithBloc<RegionBloc>(const RegionsPage(), RegionBloc());
+            },
+          ),
+          Expanded(
+            child: StreamBuilder(
+              stream: appDatabase.watchUsers(),
+              builder: (context, AsyncSnapshot<List<UserTableData>> snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data?.isNotEmpty == true) {
+                    final data = snapshot.data!;
+                    return ListView.separated(
+                      separatorBuilder: (context, index) =>
+                          const Divider(height: 1),
+                      itemBuilder: (context, index) {
+                        final item = data[index];
+                        return ListTile(
+                          leading: Text("${item.id}"),
+                          title: Text("${item.name}"),
+                          onTap: () => push(ChatPage(userTableData: item)),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  showUserDialog(context, userTableData: item);
+                                },
+                                icon: const Icon(Icons.edit),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  showDeleteDialog(item);
+                                },
+                                icon: const Icon(Icons.delete),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                      itemCount: data.length,
+                    );
+                  } else {
+                    return const Center(
+                      child: Text("Foydalanuvchilar ma'lumotlari topilmadi"),
+                    );
+                  }
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
-                },
-                itemCount: data.length,
-              );
-            } else {
-              return const Center(
-                child: Text("Foydalanuvchilar ma'lumotlari topilmadi"),
-              );
-            }
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+                }
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),

@@ -461,13 +461,337 @@ class MessageTableCompanion extends UpdateCompanion<MessageTableData> {
   }
 }
 
+class $RegionTableTable extends RegionTable
+    with TableInfo<$RegionTableTable, RegionTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $RegionTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  @override
+  late final GeneratedColumn<int> code = GeneratedColumn<int>(
+      'code', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _nameUzMeta = const VerificationMeta('nameUz');
+  @override
+  late final GeneratedColumn<String> nameUz = GeneratedColumn<String>(
+      'nameUz', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _nameRuMeta = const VerificationMeta('nameRu');
+  @override
+  late final GeneratedColumn<String> nameRu = GeneratedColumn<String>(
+      'nameRu', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _nameLatnMeta =
+      const VerificationMeta('nameLatn');
+  @override
+  late final GeneratedColumn<String> nameLatn = GeneratedColumn<String>(
+      'nameLatn', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _ns10CodeMeta =
+      const VerificationMeta('ns10Code');
+  @override
+  late final GeneratedColumn<int> ns10Code = GeneratedColumn<int>(
+      'ns10Code', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _soatoMeta = const VerificationMeta('soato');
+  @override
+  late final GeneratedColumn<int> soato = GeneratedColumn<int>(
+      'soato', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [code, nameUz, nameRu, nameLatn, ns10Code, soato];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'region_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<RegionTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('code')) {
+      context.handle(
+          _codeMeta, code.isAcceptableOrUnknown(data['code']!, _codeMeta));
+    }
+    if (data.containsKey('nameUz')) {
+      context.handle(_nameUzMeta,
+          nameUz.isAcceptableOrUnknown(data['nameUz']!, _nameUzMeta));
+    } else if (isInserting) {
+      context.missing(_nameUzMeta);
+    }
+    if (data.containsKey('nameRu')) {
+      context.handle(_nameRuMeta,
+          nameRu.isAcceptableOrUnknown(data['nameRu']!, _nameRuMeta));
+    } else if (isInserting) {
+      context.missing(_nameRuMeta);
+    }
+    if (data.containsKey('nameLatn')) {
+      context.handle(_nameLatnMeta,
+          nameLatn.isAcceptableOrUnknown(data['nameLatn']!, _nameLatnMeta));
+    } else if (isInserting) {
+      context.missing(_nameLatnMeta);
+    }
+    if (data.containsKey('ns10Code')) {
+      context.handle(_ns10CodeMeta,
+          ns10Code.isAcceptableOrUnknown(data['ns10Code']!, _ns10CodeMeta));
+    } else if (isInserting) {
+      context.missing(_ns10CodeMeta);
+    }
+    if (data.containsKey('soato')) {
+      context.handle(
+          _soatoMeta, soato.isAcceptableOrUnknown(data['soato']!, _soatoMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {code};
+  @override
+  RegionTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return RegionTableData(
+      code: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}code']),
+      nameUz: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}nameUz'])!,
+      nameRu: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}nameRu'])!,
+      nameLatn: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}nameLatn'])!,
+      ns10Code: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}ns10Code'])!,
+      soato: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}soato']),
+    );
+  }
+
+  @override
+  $RegionTableTable createAlias(String alias) {
+    return $RegionTableTable(attachedDatabase, alias);
+  }
+}
+
+class RegionTableData extends DataClass implements Insertable<RegionTableData> {
+  final int? code;
+  final String nameUz;
+  final String nameRu;
+  final String nameLatn;
+  final int ns10Code;
+  final int? soato;
+  const RegionTableData(
+      {this.code,
+      required this.nameUz,
+      required this.nameRu,
+      required this.nameLatn,
+      required this.ns10Code,
+      this.soato});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || code != null) {
+      map['code'] = Variable<int>(code);
+    }
+    map['nameUz'] = Variable<String>(nameUz);
+    map['nameRu'] = Variable<String>(nameRu);
+    map['nameLatn'] = Variable<String>(nameLatn);
+    map['ns10Code'] = Variable<int>(ns10Code);
+    if (!nullToAbsent || soato != null) {
+      map['soato'] = Variable<int>(soato);
+    }
+    return map;
+  }
+
+  RegionTableCompanion toCompanion(bool nullToAbsent) {
+    return RegionTableCompanion(
+      code: code == null && nullToAbsent ? const Value.absent() : Value(code),
+      nameUz: Value(nameUz),
+      nameRu: Value(nameRu),
+      nameLatn: Value(nameLatn),
+      ns10Code: Value(ns10Code),
+      soato:
+          soato == null && nullToAbsent ? const Value.absent() : Value(soato),
+    );
+  }
+
+  factory RegionTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return RegionTableData(
+      code: serializer.fromJson<int?>(json['code']),
+      nameUz: serializer.fromJson<String>(json['nameUz']),
+      nameRu: serializer.fromJson<String>(json['nameRu']),
+      nameLatn: serializer.fromJson<String>(json['nameLatn']),
+      ns10Code: serializer.fromJson<int>(json['ns10Code']),
+      soato: serializer.fromJson<int?>(json['soato']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'code': serializer.toJson<int?>(code),
+      'nameUz': serializer.toJson<String>(nameUz),
+      'nameRu': serializer.toJson<String>(nameRu),
+      'nameLatn': serializer.toJson<String>(nameLatn),
+      'ns10Code': serializer.toJson<int>(ns10Code),
+      'soato': serializer.toJson<int?>(soato),
+    };
+  }
+
+  RegionTableData copyWith(
+          {Value<int?> code = const Value.absent(),
+          String? nameUz,
+          String? nameRu,
+          String? nameLatn,
+          int? ns10Code,
+          Value<int?> soato = const Value.absent()}) =>
+      RegionTableData(
+        code: code.present ? code.value : this.code,
+        nameUz: nameUz ?? this.nameUz,
+        nameRu: nameRu ?? this.nameRu,
+        nameLatn: nameLatn ?? this.nameLatn,
+        ns10Code: ns10Code ?? this.ns10Code,
+        soato: soato.present ? soato.value : this.soato,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('RegionTableData(')
+          ..write('code: $code, ')
+          ..write('nameUz: $nameUz, ')
+          ..write('nameRu: $nameRu, ')
+          ..write('nameLatn: $nameLatn, ')
+          ..write('ns10Code: $ns10Code, ')
+          ..write('soato: $soato')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(code, nameUz, nameRu, nameLatn, ns10Code, soato);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is RegionTableData &&
+          other.code == this.code &&
+          other.nameUz == this.nameUz &&
+          other.nameRu == this.nameRu &&
+          other.nameLatn == this.nameLatn &&
+          other.ns10Code == this.ns10Code &&
+          other.soato == this.soato);
+}
+
+class RegionTableCompanion extends UpdateCompanion<RegionTableData> {
+  final Value<int?> code;
+  final Value<String> nameUz;
+  final Value<String> nameRu;
+  final Value<String> nameLatn;
+  final Value<int> ns10Code;
+  final Value<int?> soato;
+  const RegionTableCompanion({
+    this.code = const Value.absent(),
+    this.nameUz = const Value.absent(),
+    this.nameRu = const Value.absent(),
+    this.nameLatn = const Value.absent(),
+    this.ns10Code = const Value.absent(),
+    this.soato = const Value.absent(),
+  });
+  RegionTableCompanion.insert({
+    this.code = const Value.absent(),
+    required String nameUz,
+    required String nameRu,
+    required String nameLatn,
+    required int ns10Code,
+    this.soato = const Value.absent(),
+  })  : nameUz = Value(nameUz),
+        nameRu = Value(nameRu),
+        nameLatn = Value(nameLatn),
+        ns10Code = Value(ns10Code);
+  static Insertable<RegionTableData> custom({
+    Expression<int>? code,
+    Expression<String>? nameUz,
+    Expression<String>? nameRu,
+    Expression<String>? nameLatn,
+    Expression<int>? ns10Code,
+    Expression<int>? soato,
+  }) {
+    return RawValuesInsertable({
+      if (code != null) 'code': code,
+      if (nameUz != null) 'nameUz': nameUz,
+      if (nameRu != null) 'nameRu': nameRu,
+      if (nameLatn != null) 'nameLatn': nameLatn,
+      if (ns10Code != null) 'ns10Code': ns10Code,
+      if (soato != null) 'soato': soato,
+    });
+  }
+
+  RegionTableCompanion copyWith(
+      {Value<int?>? code,
+      Value<String>? nameUz,
+      Value<String>? nameRu,
+      Value<String>? nameLatn,
+      Value<int>? ns10Code,
+      Value<int?>? soato}) {
+    return RegionTableCompanion(
+      code: code ?? this.code,
+      nameUz: nameUz ?? this.nameUz,
+      nameRu: nameRu ?? this.nameRu,
+      nameLatn: nameLatn ?? this.nameLatn,
+      ns10Code: ns10Code ?? this.ns10Code,
+      soato: soato ?? this.soato,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (code.present) {
+      map['code'] = Variable<int>(code.value);
+    }
+    if (nameUz.present) {
+      map['nameUz'] = Variable<String>(nameUz.value);
+    }
+    if (nameRu.present) {
+      map['nameRu'] = Variable<String>(nameRu.value);
+    }
+    if (nameLatn.present) {
+      map['nameLatn'] = Variable<String>(nameLatn.value);
+    }
+    if (ns10Code.present) {
+      map['ns10Code'] = Variable<int>(ns10Code.value);
+    }
+    if (soato.present) {
+      map['soato'] = Variable<int>(soato.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RegionTableCompanion(')
+          ..write('code: $code, ')
+          ..write('nameUz: $nameUz, ')
+          ..write('nameRu: $nameRu, ')
+          ..write('nameLatn: $nameLatn, ')
+          ..write('ns10Code: $ns10Code, ')
+          ..write('soato: $soato')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   late final $UserTableTable userTable = $UserTableTable(this);
   late final $MessageTableTable messageTable = $MessageTableTable(this);
+  late final $RegionTableTable regionTable = $RegionTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [userTable, messageTable];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [userTable, messageTable, regionTable];
 }

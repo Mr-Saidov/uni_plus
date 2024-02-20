@@ -1,10 +1,16 @@
 import 'package:drift/drift.dart';
 import 'package:uni_plus/data/local/db/tables/message_table.dart';
+import 'package:uni_plus/data/local/db/tables/region_table.dart';
 import 'package:uni_plus/data/local/db/tables/user_table.dart';
+import 'package:uni_plus/utils/utils.dart';
 
 part 'app_database.g.dart';
 
-@DriftDatabase(tables: [UserTable, MessageTable])
+@DriftDatabase(tables: [
+  UserTable,
+  MessageTable,
+  RegionTable,
+])
 class AppDatabase extends _$AppDatabase {
   // Attention!!!
   // Don't use create or default constructor. Use getInstance() method to get AppDatabase object
@@ -15,11 +21,11 @@ class AppDatabase extends _$AppDatabase {
             //   path: "app.db",
             //   logStatements: true,
             //   singleInstance: true,
-            //   password: "goCoder_Pass",
+            //   password: "random pass",
             // ),
             executor);
 
-  int get schemaVersion => 2;
+  int get schemaVersion => 1;
 
   @override
   MigrationStrategy get migration =>
@@ -41,6 +47,8 @@ class AppDatabase extends _$AppDatabase {
           .go();
 
   Stream<List<UserTableData>> watchUsers() => (select(userTable).watch());
+
+  Stream<List<RegionTableData>> watchRegions() => (select(regionTable).watch());
 
   Future<int> insertMessageTable(MessageTableData messageTableData) =>
       into(messageTable)
